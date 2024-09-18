@@ -6,7 +6,6 @@ class Service(models.Model):
         ('medical', 'Medical'),
         ('food', 'Food'),
         ('education', 'Education'),
-        # Add more categories as needed
     ]
 
     name = models.CharField(max_length=200)

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - Camp Services Finder</title>
+    {% load static %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'services/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Camp Services Finder</h1>
+    </header>
+    <div class="container">
+        <h2>Welcome to Camp Services Finder</h2>
+        <p>Find essential services in the camp easily.</p>
+        <a href="{% url 'service_list' %}">View Services</a>
+    </div>
+    <footer>
+        <p>&copy; 2024 Camp Services Finder</p>
+    </footer>
+</body>
+</html>
+

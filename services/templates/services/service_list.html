@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service List - Camp Services Finder</title>
+    {% load static %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'services/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Camp Services Finder</h1>
+    </header>
+    <div class="container">
+        <h2>Services Available</h2>
+        <ul>
+            {% if services %}
+                {% for service in services %}
+                    <li>
+                        <a href="{% url 'service_detail' service.pk %}">{{ service.name }}</a> - {{ service.category }}
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>No services available</li>
+            {% endif %}
+        </ul>
+    </div>
+    <footer>
+        <p>&copy; 2024 Camp Services Finder</p>
+    </footer>
+</body>
+</html>
+
