@@ -6,17 +6,17 @@ from services import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home, name='home'),  # Home page
-    path('services/', include('services.urls')),  # Services URLs
+                        # Home page
+    path('', views.home, name='home'),  
+                        # Services URLs
+    path('services/', include('services.urls')),  
 
-    # Authentication
+                        # Authentication
     path('login/', auth_views.LoginView.as_view(template_name='services/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
 
-
-    
-    # Password Reset URLs
+                        # Password Reset URLs
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
