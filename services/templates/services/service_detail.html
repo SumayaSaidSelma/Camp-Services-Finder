@@ -15,6 +15,10 @@
         <p><strong>Location:</strong> {{ service.location }}</p>
         <p><strong>Description:</strong> {{ service.description }}</p>
     </div>
+    <div class="service-actions">
+        <a href="{% url 'service_update' service.pk %}">Edit</a> | 
+        <a href="{% url 'service_delete' service.pk %}">Delete</a>
+    </div>
 </body>
 </html>
 

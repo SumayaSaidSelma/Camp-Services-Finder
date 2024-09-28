@@ -11,6 +11,16 @@
     </header>
     <div class="container">
         <h2>Services Available</h2>
+
+        <!-- Search Form -->
+        <form method="get" action="{% url 'service_list' %}">
+            <input type="text" name="q" placeholder="Search services..." value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+        </form>
+        <a href="{% url 'add_service' %}">
+            <button>Add New Service</button>
+        </a>
+
         <ul>
             {% if services %}
                 {% for service in services %}
@@ -22,10 +32,12 @@
                 <li>No services available</li>
             {% endif %}
         </ul>
+        
     </div>
     <footer>
         <p>&copy; 2024 Camp Services Finder</p>
     </footer>
 </body>
 </html>
+
 

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Service</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'services/styles.css' %}">
+</head>
+<body>
+    <h2>Are you sure you want to delete "{{ service.name }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+        <a href="{% url 'service_detail' service.pk %}">Cancel</a>
+    </form>
+</body>
+</html>

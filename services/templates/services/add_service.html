@@ -1,0 +1,10 @@
+
+<h1>Add a New Service</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Service</button>
+</form>
+
+<a href="{% url 'service_list' %}">Back to Service List</a>
