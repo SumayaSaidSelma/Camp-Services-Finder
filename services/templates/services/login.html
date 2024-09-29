@@ -10,7 +10,7 @@
 <body>
     <h2>Login to Camp Services Finder</h2>
 
-    <form method="POST">
+    <form method="POST" action="{% url 'login' %}?next={% url 'service_list' %}">
         {% csrf_token %}
         <div>
             <label for="username">Username:</label>
@@ -30,6 +30,7 @@
             {% endfor %}
         </div>
     {% endif %}
+
 </body>
 </html>
 

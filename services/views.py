@@ -7,6 +7,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.decorators import user_passes_test
 
 def service_list(request):
     query = request.GET.get('q')
@@ -20,6 +21,8 @@ def service_list(request):
         services = Service.objects.all()
     return render(request, 'services/service_list.html', {'services': services})
 
+# Restrict to admins only
+@user_passes_test(lambda u: u.is_staff)
 def add_service(request):
     if request.method == 'POST':
         form = ServiceForm(request.POST)
@@ -43,11 +46,13 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.is_staff = request.POST.get('is_admin') == 'on'
+            user.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
-            login(request, user)  
-            return redirect('service_list')  
+            login(request, user)
+            return redirect('service_list')
     else:
         form = UserCreationForm()
     return render(request, 'services/register.html', {'form': form})
@@ -66,7 +71,8 @@ def login_view(request):
             messages.error(request, 'Invalid username or password')
     return render(request, 'services/login.html', {'form': form})
 
-# Create new service 
+# Create new service (admin only)
+@user_passes_test(lambda u: u.is_staff)
 def create_service(request):
     if request.method == 'POST':
         form = ServiceForm(request.POST)
@@ -77,14 +83,14 @@ def create_service(request):
         form = ServiceForm()
     return render(request, 'services/service_form.html', {'form': form})
 
-# Update Service View 
+# Update Service View (admin only)
 class ServiceUpdateView(UpdateView):
     model = Service
     form_class = ServiceForm
     template_name = 'services/service_update.html'
     success_url = reverse_lazy('service_list')
 
-# Delete Service View 
+# Delete Service View (admin only)
 class ServiceDeleteView(DeleteView):
     model = Service
     template_name = 'services/service_confirm_delete.html'

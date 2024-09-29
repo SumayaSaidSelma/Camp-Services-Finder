@@ -12,6 +12,11 @@
       <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <div>
+          <input type="checkbox" name="is_admin" id="is_admin">
+          <label for="is_admin">Register as Admin</label>
+        </div>
+        
         <button type="submit">Register</button>
       </form>
     {% endblock %}
