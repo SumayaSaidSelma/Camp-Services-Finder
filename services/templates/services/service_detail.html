@@ -1,25 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Service Detail - Camp Services Finder</title>
-    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Detail</title>
+    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'services/styles.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Camp Services Finder</h1>
-    </header>
-    <div class="container service-detail">
-        <h2>{{ service.name }}</h2>
-        <p><strong>Category:</strong> {{ service.category }}</p>
-        <p><strong>Location:</strong> {{ service.location }}</p>
-        <p><strong>Description:</strong> {{ service.description }}</p>
-    </div>
-    <div class="service-actions">
-        <a href="{% url 'service_update' service.pk %}">Edit</a> | 
-        <a href="{% url 'service_delete' service.pk %}">Delete</a>
-    </div>
+    <h2>Service Details</h2>
+    <h3>{{ service.name }}</h3>
+    <p><strong>Category:</strong> {{ service.category }}</p>
+    <p><strong>Description:</strong> {{ service.description }}</p>
+    <p><strong>Contact Info:</strong> {{ service.contact_info }}</p>
+    <p><strong>Hours:</strong> {{ service.hours }}</p>
+    
+    {% if service.image %}  
+        <img src="{{ service.image.url }}" alt="{{ service.name }}" />
+    {% endif %}
+
+    <br>
+    <br>
+
+    <a href="{% url 'service_update' service.id %}"><button>Edit Service <button></a>
+
+    <form method="POST" action="{% url 'service_delete' service.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete Service</button>
+    </form>
+
+    <a href="{% url 'service_list' %}"><button>Back to Service List<button></a>
 </body>
 </html>
+
 
 

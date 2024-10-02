@@ -19,12 +19,13 @@ class Service(models.Model):
         ('other_ar', 'آخر'),
     ]
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=100)
     description = models.TextField()
-    contact_info = models.CharField(max_length=255)
-    hours = models.CharField(max_length=255)
+    contact_info = models.CharField(max_length=100)
+    hours = models.CharField(max_length=100)
+    image_url = models.URLField(max_length=1000, blank=True, null=True) 
 
     def __str__(self):
         return self.name

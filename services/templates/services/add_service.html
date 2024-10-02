@@ -1,10 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Service</title>
+    {% load static %}  
+    <link rel="stylesheet" type="text/css" href="{% static 'services/styles.css' %}">  
+</head>
+<body>
+    <h2>Add a New Service</h2>
 
-<h1>Add a New Service</h1>
+    <form method="POST" enctype="multipart/form-data">  
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Service</button>
+    </form>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Service</button>
-</form>
+    <a href="{% url 'service_list' %}"><button>Back to Service List</button></a>
+</body>
+</html>
 
-<a href="{% url 'service_list' %}">Back to Service List</a>

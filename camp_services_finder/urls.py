@@ -3,6 +3,7 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from services import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.home, name='home'),  
