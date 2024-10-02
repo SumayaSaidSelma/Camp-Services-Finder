@@ -5,33 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service Detail</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'services/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'services/servicedetail.css' %}">
 </head>
 <body>
-    <h2>Service Details</h2>
-    <h3>{{ service.name }}</h3>
-    <p><strong>Category:</strong> {{ service.category }}</p>
-    <p><strong>Description:</strong> {{ service.description }}</p>
-    <p><strong>Contact Info:</strong> {{ service.contact_info }}</p>
-    <p><strong>Hours:</strong> {{ service.hours }}</p>
-    
-    {% if service.image %}  
-        <img src="{{ service.image.url }}" alt="{{ service.name }}" />
-    {% endif %}
-
-    <br>
-    <br>
-
-    <a href="{% url 'service_update' service.id %}"><button>Edit Service <button></a>
-
-    <form method="POST" action="{% url 'service_delete' service.id %}">
-        {% csrf_token %}
-        <button type="submit">Delete Service</button>
-    </form>
-
-    <a href="{% url 'service_list' %}"><button>Back to Service List<button></a>
+    <div class="container">
+        <h2>Service Details</h2>
+        <h3>{{ service.name }}</h3>
+        <p><strong>Category:</strong> {{ service.category }}</p>
+        <p><strong>Description:</strong> {{ service.description }}</p>
+        <p><strong>Contact Info:</strong> {{ service.contact_info }}</p>
+        <p><strong>Hours:</strong> {{ service.hours }}</p>
+        
+        {% if service.image %}
+        <img src="{{ service.image.url }}" alt="{{ service.name }}">
+        {% else %}
+        <p>No image available</p>
+        {% endif %}
+        
+        <div class="button-group">
+            <a href="{% url 'edit_service' service.id %}" class="button">Edit Service</a>
+            <form method="POST" action="{% url 'delete_service' service.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="button">Delete Service</button>
+            </form>
+            <a href="{% url 'service_list' %}" class="button">Back to Service List</a>
+        </div>
+    </div>
 </body>
 </html>
-
-
-

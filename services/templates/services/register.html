@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-{% extends 'services/base.html' %}
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Camp Services Finder</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'services/register.css' %}">
 </head>
 <body>
     {% block content %}
@@ -14,10 +15,14 @@
         {{ form.as_p }}
         <label for="is_admin">
           <input type="checkbox" name="is_admin" id="is_admin"> Register as Admin
-      </label>
+        </label>
         
         <button type="submit">Register</button>
       </form>
+
+      <div>
+          <a href="{% url 'login' %}" class="login-button">Login</a>
+      </div>
     {% endblock %}
 </body>
 </html>

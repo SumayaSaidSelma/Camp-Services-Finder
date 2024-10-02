@@ -1,13 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Service
 from django.contrib.auth import login, authenticate
-from .forms import ServiceForm 
+from .forms import ServiceForm, CustomUserCreationForm 
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import LogoutView
+
 
 def service_list(request):
     query = request.GET.get('q')
@@ -45,7 +48,7 @@ def service_detail(request, pk):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_staff = request.POST.get('is_admin') == 'on'
@@ -55,7 +58,7 @@ def register(request):
             login(request, user)
             return redirect('service_list')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'services/register.html', {'form': form})
 
 
@@ -76,7 +79,7 @@ def login_view(request):
 @user_passes_test(lambda u: u.is_staff)
 def create_service(request):
     if request.method == 'POST':
-        form = ServiceForm(request.POST)
+        form = ServiceForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('service_list')
@@ -85,23 +88,30 @@ def create_service(request):
     return render(request, 'services/service_form.html', {'form': form})
 
 
-class ServiceUpdateView(UpdateView):
+class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Service
     form_class = ServiceForm
     template_name = 'services/service_update.html'
     success_url = reverse_lazy('service_list')
 
-    @user_passes_test(lambda u: u.is_staff)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('login')
 
 
 
-class ServiceDeleteView(DeleteView):
+class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Service
     template_name = 'services/service_confirm_delete.html'
     success_url = reverse_lazy('service_list')
 
-    @user_passes_test(lambda u: u.is_staff)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('login')
+
+class CustomLogoutView(LogoutView):
+    next_page = 'login'

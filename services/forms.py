@@ -13,4 +13,4 @@ class CustomUserCreationForm(UserCreationForm):
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ['name', 'category', 'location', 'description', 'contact_info', 'hours', 'image_url'] 
+        fields = ['name', 'category', 'location', 'description', 'contact_info', 'hours', 'image'] 

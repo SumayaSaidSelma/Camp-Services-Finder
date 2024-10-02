@@ -1,5 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.files.storage import FileSystemStorage
+
+
+fs = FileSystemStorage(location='/media/photos')
 
 class CustomUser(AbstractUser):
     is_admin = models.BooleanField(default=False)
@@ -25,7 +29,7 @@ class Service(models.Model):
     description = models.TextField()
     contact_info = models.CharField(max_length=100)
     hours = models.CharField(max_length=100)
-    image_url = models.URLField(max_length=1000, blank=True, null=True) 
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
