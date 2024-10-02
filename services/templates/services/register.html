@@ -9,13 +9,12 @@
 <body>
     {% block content %}
       <h2>Register</h2>
-      <form method="post">
+      <form method="post" action="{% url 'register' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <div>
-          <input type="checkbox" name="is_admin" id="is_admin">
-          <label for="is_admin">Register as Admin</label>
-        </div>
+        <label for="is_admin">
+          <input type="checkbox" name="is_admin" id="is_admin"> Register as Admin
+      </label>
         
         <button type="submit">Register</button>
       </form>
